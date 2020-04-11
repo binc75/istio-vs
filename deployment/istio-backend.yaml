@@ -12,7 +12,8 @@ spec:
   http:
   - match:
     - authority: 
-        exact: "xp.example.com"
+        exact: xp.example.com
+        #regex: ^(?!.*www\.example\.com).*$
       uri:
         prefix: /
     route:
