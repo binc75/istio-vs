@@ -52,7 +52,7 @@ Quick explanation:
   * defines an istio DestinationRule to distinguish between the 2 versions of the python app  
     (labels: version: v1 & v2)
 
-## Checking out features
+## Checking out features (NOT WORKING AS EXPECTED)
 Get and set env variables
 ```bash
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
