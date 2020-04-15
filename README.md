@@ -1,5 +1,15 @@
-# ISTIO Virtualservice rules
-We are going to setup a *minikube* cluster, install *istio* and install an application to test Virtualservices capabilities.
+# ISTIO Virtualservice routing rules
+We are going to:
+ * setup a *minikube* cluster
+ * install *istio* 
+ * install an application 
+
+## PURPOSE 
+The purpose of the test is to demonstrate the flexibility of ISTIO routing rules.  
+We want to:
+ * reach *app v2* if we point to  xp.example.com/version 
+ * reach *app v1* if we point to www.example.com/version
+ * reach *app v3* if we point to www.example.com/ or xp.example.com/
 
 
 ## Environment setup
@@ -42,7 +52,7 @@ kubectl apply -f deployment/istio-gw.yaml
 ```
 Quick explanation:  
 * backend.yaml
-  * custom python flask API application (2 versions: backend-v1 & backend-v2)  
+  * custom python flask API application (3 versions: backend-v1 , backend-v2, backend-v3)  
     This application read the env variable *VERSION* and return it when called.
   * service (ClusterIP) to expose the application (label: app: backend)
 * istio-gw.yaml
@@ -50,9 +60,9 @@ Quick explanation:
 * istio-backend.yaml
   * defines an istio VirtualService that route traffic to the instances of the python app
   * defines an istio DestinationRule to distinguish between the 2 versions of the python app  
-    (labels: version: v1 & v2)
+    (labels: version: v1 , v2 v3)
 
-## Checking out features (NOT WORKING AS EXPECTED)
+## Checking out features 
 Get and set env variables
 ```bash
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
@@ -60,11 +70,20 @@ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressga
 export INGRESS_HOST=$(minikube -p istio-mk ip)
 ```
 
-Check if the app respond on base url (should only go to if Host is "www.example.com" v1 and to v2 host is "xp.example.com"):
+Check if the app respond on base url (should see app v3):
 ```bash
 while true; do curl http://$INGRESS_HOST:$INGRESS_PORT -H "Host: www.example.com"; sleep .2;done
-# OR
+# AND 
 while true; do curl http://$INGRESS_HOST:$INGRESS_PORT -H "Host: xp.example.com"; sleep .2;done
+```
+
+Check if routing for /version work as expected:
+ * xp.example.com/version  ---> app v2
+ * www.example.com/version ---> app v1
+```bash
+while true; do curl http://$INGRESS_HOST:$INGRESS_PORT/version -H "Host: www.example.com"; sleep .2;done
+# OR
+while true; do curl http://$INGRESS_HOST:$INGRESS_PORT/version -H "Host: xp.example.com"; sleep .2;done
 ```
 
 ## Clean up

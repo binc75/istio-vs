@@ -54,6 +54,34 @@ spec:
             cpu: 100m
             memory: 100Mi
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v3
+    spec:
+      containers:
+      - image: nbianchi/pywebapp:v0.3
+        imagePullPolicy: Always
+        env:
+        - name: VERSION
+          value: "v3"
+        name: python
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+---
 apiVersion: v1
 kind: Service
 metadata:

@@ -15,7 +15,7 @@ spec:
         exact: xp.example.com
         #regex: ^(?!.*www\.example\.com).*$
       uri:
-        prefix: /
+        prefix: /version
     route:
     - destination:
         host: backend.default.svc.cluster.local
@@ -23,12 +23,20 @@ spec:
         port:
           number: 80
   - match:
+    #- authority: 
+    #    exact: www.example.com
     - uri:
-        prefix: /
+        prefix: /version
     route:
     - destination:
         host: backend.default.svc.cluster.local
         subset: v1
+        port:
+          number: 80
+  - route:
+    - destination:
+        host: backend.default.svc.cluster.local
+        subset: v3
         port:
           number: 80
 ---
@@ -45,4 +53,6 @@ spec:
   - name: v2
     labels:
       version: v2
-
+  - name: v3
+    labels:
+      version: v3
