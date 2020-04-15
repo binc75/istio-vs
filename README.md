@@ -78,8 +78,8 @@ while true; do curl http://$INGRESS_HOST:$INGRESS_PORT -H "Host: xp.example.com"
 ```
 
 Check if routing for /version work as expected:
- * xp.example.com/version  ---> app v2
  * www.example.com/version ---> app v1
+ * xp.example.com/version  ---> app v2
 ```bash
 while true; do curl http://$INGRESS_HOST:$INGRESS_PORT/version -H "Host: www.example.com"; sleep .2;done
 # OR
