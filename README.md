@@ -11,6 +11,7 @@ We want to:
  * reach *app v1* if we point to www.example.com/version
  * reach *app v3* if we point to www.example.com/ or xp.example.com/
 
+![Setup schema](img/istio-vs-demo.png?raw=true "Schema")
 
 ## Environment setup
 Setup minikube with the appropriate resources:
@@ -59,8 +60,8 @@ Quick explanation:
   * define an istio gateway named *demo-gateway* that route traffic from the external world to the inside of k8s
 * istio-backend.yaml
   * defines an istio VirtualService that route traffic to the instances of the python app
-  * defines an istio DestinationRule to distinguish between the 2 versions of the python app  
-    (labels: version: v1 , v2 v3)
+  * defines an istio DestinationRule to distinguish between the 3 versions of the python app  
+    (labels: version: v1, v2, v3)
 
 ## Checking out features 
 Get and set env variables
