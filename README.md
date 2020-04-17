@@ -11,7 +11,7 @@ We want to:
  * reach *app v1* if we point to www.example.com/version
  * reach *app v3* if we point to www.example.com/ or xp.example.com/
 
-![Setup schema](img/istio-vs-demo.png =200x "Schema")
+![Setup schema](img/istio-vs-demo.png | width=500)
 
 ## Environment setup
 Setup minikube with the appropriate resources:
